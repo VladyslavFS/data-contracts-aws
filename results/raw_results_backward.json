@@ -1,0 +1,810 @@
+{
+  "S00_baseline": {
+    "odcs_contract": {
+      "scenario": "S00_baseline",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": false,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 107.1,
+      "valid": true,
+      "rows": 200,
+      "errors": [],
+      "warnings": []
+    },
+    "no_contract": {
+      "mechanism": "no_contract",
+      "detected": false,
+      "stage": "—",
+      "rows_written": 200,
+      "inferred_schema": [
+        "order_id:string",
+        "customer_id:string",
+        "order_date:timestamp",
+        "amount:double",
+        "currency:string",
+        "status:string"
+      ],
+      "note": "завдання завершилось успішно, дані записані в озеро",
+      "elapsed_ms": 30956.4
+    },
+    "glue_dq": {
+      "mechanism": "glue_dq",
+      "detected": false,
+      "stage": "—",
+      "rules_total": 16,
+      "rules_failed": 0,
+      "failed_rules": [],
+      "elapsed_ms": 7168.8
+    },
+    "schema_registry": {
+      "scenario": "S00_baseline",
+      "mechanism": "schema_registry",
+      "compatibility": "BACKWARD",
+      "producer_schema_changed": false,
+      "version_status": "AVAILABLE",
+      "detected": false,
+      "stage": "—",
+      "elapsed_ms": 1156.3
+    }
+  },
+  "S01_add_column": {
+    "odcs_contract": {
+      "scenario": "S01_add_column",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": false,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 61.3,
+      "valid": true,
+      "rows": 200,
+      "errors": [],
+      "warnings": [
+        "schema: поле 'discount' не описане в контракті (допускається)"
+      ]
+    },
+    "no_contract": {
+      "mechanism": "no_contract",
+      "detected": false,
+      "stage": "—",
+      "rows_written": 200,
+      "inferred_schema": [
+        "order_id:string",
+        "customer_id:string",
+        "order_date:timestamp",
+        "amount:double",
+        "currency:string",
+        "status:string",
+        "discount:double"
+      ],
+      "note": "завдання завершилось успішно, дані записані в озеро",
+      "elapsed_ms": 25486.4
+    },
+    "glue_dq": {
+      "mechanism": "glue_dq",
+      "detected": false,
+      "stage": "—",
+      "rules_total": 16,
+      "rules_failed": 0,
+      "failed_rules": [],
+      "elapsed_ms": 7460.5
+    },
+    "schema_registry": {
+      "scenario": "S01_add_column",
+      "mechanism": "schema_registry",
+      "compatibility": "BACKWARD",
+      "producer_schema_changed": true,
+      "version_status": "FAILURE",
+      "detected": true,
+      "stage": "публікація схеми виробником",
+      "elapsed_ms": 626.8
+    }
+  },
+  "S02_rename_column": {
+    "odcs_contract": {
+      "scenario": "S02_rename_column",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 25.3,
+      "valid": false,
+      "rows": 200,
+      "errors": [
+        "schema: відсутнє обов'язкове поле 'amount'"
+      ],
+      "warnings": [
+        "schema: поле 'total_amount' не описане в контракті (допускається)"
+      ]
+    },
+    "no_contract": {
+      "mechanism": "no_contract",
+      "detected": false,
+      "stage": "—",
+      "rows_written": 200,
+      "inferred_schema": [
+        "order_id:string",
+        "customer_id:string",
+        "order_date:timestamp",
+        "total_amount:double",
+        "currency:string",
+        "status:string"
+      ],
+      "note": "завдання завершилось успішно, дані записані в озеро",
+      "elapsed_ms": 15953.5
+    },
+    "glue_dq": {
+      "mechanism": "glue_dq",
+      "detected": true,
+      "stage": "обробка (після читання даних)",
+      "rules_total": 16,
+      "rules_failed": 4,
+      "failed_rules": [
+        {
+          "rule": "ColumnExists \"amount\"",
+          "outcome": "Failed",
+          "reason": "Column amount does not exist in the dataset"
+        },
+        {
+          "rule": "IsComplete \"amount\"",
+          "outcome": "Failed",
+          "reason": "Input data does not include column amount!"
+        },
+        {
+          "rule": "ColumnValues \"amount\" >= 0",
+          "outcome": "Failed",
+          "reason": "Input data does not include column amount!\nValue: NULL does not meet the constraint requirement!"
+        },
+        {
+          "rule": "ColumnValues \"amount\" <= 100000",
+          "outcome": "Failed",
+          "reason": "Input data does not include column amount!\nValue: NULL does not meet the constraint requirement!"
+        }
+      ],
+      "elapsed_ms": 6977.9
+    },
+    "schema_registry": {
+      "scenario": "S02_rename_column",
+      "mechanism": "schema_registry",
+      "compatibility": "BACKWARD",
+      "producer_schema_changed": true,
+      "version_status": "FAILURE",
+      "detected": true,
+      "stage": "публікація схеми виробником",
+      "elapsed_ms": 557.1
+    }
+  },
+  "S03_drop_column": {
+    "odcs_contract": {
+      "scenario": "S03_drop_column",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 66.6,
+      "valid": false,
+      "rows": 200,
+      "errors": [
+        "schema: відсутнє обов'язкове поле 'customer_id'"
+      ],
+      "warnings": []
+    },
+    "no_contract": {
+      "mechanism": "no_contract",
+      "detected": false,
+      "stage": "—",
+      "rows_written": 200,
+      "inferred_schema": [
+        "order_id:string",
+        "order_date:timestamp",
+        "amount:double",
+        "currency:string",
+        "status:string"
+      ],
+      "note": "завдання завершилось успішно, дані записані в озеро",
+      "elapsed_ms": 16075.7
+    },
+    "glue_dq": {
+      "mechanism": "glue_dq",
+      "detected": true,
+      "stage": "обробка (після читання даних)",
+      "rules_total": 16,
+      "rules_failed": 2,
+      "failed_rules": [
+        {
+          "rule": "ColumnExists \"customer_id\"",
+          "outcome": "Failed",
+          "reason": "Column customer_id does not exist in the dataset"
+        },
+        {
+          "rule": "IsComplete \"customer_id\"",
+          "outcome": "Failed",
+          "reason": "Input data does not include column customer_id!"
+        }
+      ],
+      "elapsed_ms": 7095.0
+    },
+    "schema_registry": {
+      "scenario": "S03_drop_column",
+      "mechanism": "schema_registry",
+      "compatibility": "BACKWARD",
+      "producer_schema_changed": true,
+      "version_status": "AVAILABLE",
+      "detected": false,
+      "stage": "—",
+      "elapsed_ms": 657.5
+    }
+  },
+  "S04_type_change": {
+    "odcs_contract": {
+      "scenario": "S04_type_change",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 22.7,
+      "valid": false,
+      "rows": 200,
+      "errors": [
+        "amount: 200 значень не є числом, напр. ['14 843,93 грн', '2 094,78 грн', '684,06 грн']"
+      ],
+      "warnings": []
+    },
+    "no_contract": {
+      "mechanism": "no_contract",
+      "detected": false,
+      "stage": "—",
+      "rows_written": 200,
+      "inferred_schema": [
+        "order_id:string",
+        "customer_id:string",
+        "order_date:timestamp",
+        "amount:string",
+        "currency:string",
+        "status:string"
+      ],
+      "note": "завдання завершилось успішно, дані записані в озеро",
+      "elapsed_ms": 15550.6
+    },
+    "glue_dq": {
+      "mechanism": "glue_dq",
+      "detected": true,
+      "stage": "обробка (після читання даних)",
+      "rules_total": 16,
+      "rules_failed": 2,
+      "failed_rules": [
+        {
+          "rule": "ColumnValues \"amount\" >= 0",
+          "outcome": "Failed",
+          "reason": "Expected type of column amount to be one of (LongType,IntegerType,org.apache.spark.sql.types.DecimalType$@76d3ee58,DoubleType,ByteType,FloatType,ShortType), but found StringType instead!"
+        },
+        {
+          "rule": "ColumnValues \"amount\" <= 100000",
+          "outcome": "Failed",
+          "reason": "Expected type of column amount to be one of (LongType,IntegerType,org.apache.spark.sql.types.DecimalType$@76d3ee58,DoubleType,ByteType,FloatType,ShortType), but found StringType instead!"
+        }
+      ],
+      "elapsed_ms": 6709.2
+    },
+    "schema_registry": {
+      "scenario": "S04_type_change",
+      "mechanism": "schema_registry",
+      "compatibility": "BACKWARD",
+      "producer_schema_changed": true,
+      "version_status": "FAILURE",
+      "detected": true,
+      "stage": "публікація схеми виробником",
+      "elapsed_ms": 564.8
+    }
+  },
+  "S05_reorder_columns": {
+    "odcs_contract": {
+      "scenario": "S05_reorder_columns",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": false,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 29.6,
+      "valid": true,
+      "rows": 200,
+      "errors": [],
+      "warnings": []
+    },
+    "no_contract": {
+      "mechanism": "no_contract",
+      "detected": false,
+      "stage": "—",
+      "rows_written": 200,
+      "inferred_schema": [
+        "status:string",
+        "currency:string",
+        "amount:double",
+        "order_date:timestamp",
+        "customer_id:string",
+        "order_id:string"
+      ],
+      "note": "завдання завершилось успішно, дані записані в озеро",
+      "elapsed_ms": 15253.2
+    },
+    "glue_dq": {
+      "mechanism": "glue_dq",
+      "detected": false,
+      "stage": "—",
+      "rules_total": 16,
+      "rules_failed": 0,
+      "failed_rules": [],
+      "elapsed_ms": 7361.9
+    },
+    "schema_registry": {
+      "scenario": "S05_reorder_columns",
+      "mechanism": "schema_registry",
+      "compatibility": "BACKWARD",
+      "producer_schema_changed": false,
+      "version_status": "AVAILABLE",
+      "detected": false,
+      "stage": "—",
+      "elapsed_ms": 638.2
+    }
+  },
+  "S06_nulls_required": {
+    "odcs_contract": {
+      "scenario": "S06_nulls_required",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 18.3,
+      "valid": false,
+      "rows": 200,
+      "errors": [
+        "customer_id: 20 порожніх значень у обов'язковому полі"
+      ],
+      "warnings": []
+    },
+    "no_contract": {
+      "mechanism": "no_contract",
+      "detected": false,
+      "stage": "—",
+      "rows_written": 200,
+      "inferred_schema": [
+        "order_id:string",
+        "customer_id:string",
+        "order_date:timestamp",
+        "amount:double",
+        "currency:string",
+        "status:string"
+      ],
+      "note": "завдання завершилось успішно, дані записані в озеро",
+      "elapsed_ms": 16320.4
+    },
+    "glue_dq": {
+      "mechanism": "glue_dq",
+      "detected": true,
+      "stage": "обробка (після читання даних)",
+      "rules_total": 16,
+      "rules_failed": 1,
+      "failed_rules": [
+        {
+          "rule": "IsComplete \"customer_id\"",
+          "outcome": "Failed",
+          "reason": "Value: 0.9 does not meet the constraint requirement!"
+        }
+      ],
+      "elapsed_ms": 6998.1
+    },
+    "schema_registry": {
+      "scenario": "S06_nulls_required",
+      "mechanism": "schema_registry",
+      "compatibility": "BACKWARD",
+      "producer_schema_changed": false,
+      "version_status": "AVAILABLE",
+      "detected": false,
+      "stage": "—",
+      "elapsed_ms": 495.6
+    }
+  },
+  "S07_duplicate_keys": {
+    "odcs_contract": {
+      "scenario": "S07_duplicate_keys",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 42.8,
+      "valid": false,
+      "rows": 200,
+      "errors": [
+        "order_id: 20 дублікатів у полі з обмеженням unique"
+      ],
+      "warnings": []
+    },
+    "no_contract": {
+      "mechanism": "no_contract",
+      "detected": false,
+      "stage": "—",
+      "rows_written": 200,
+      "inferred_schema": [
+        "order_id:string",
+        "customer_id:string",
+        "order_date:timestamp",
+        "amount:double",
+        "currency:string",
+        "status:string"
+      ],
+      "note": "завдання завершилось успішно, дані записані в озеро",
+      "elapsed_ms": 16279.2
+    },
+    "glue_dq": {
+      "mechanism": "glue_dq",
+      "detected": true,
+      "stage": "обробка (після читання даних)",
+      "rules_total": 16,
+      "rules_failed": 1,
+      "failed_rules": [
+        {
+          "rule": "IsUnique \"order_id\"",
+          "outcome": "Failed",
+          "reason": "Value: 0.8 does not meet the constraint requirement!"
+        }
+      ],
+      "elapsed_ms": 6987.5
+    },
+    "schema_registry": {
+      "scenario": "S07_duplicate_keys",
+      "mechanism": "schema_registry",
+      "compatibility": "BACKWARD",
+      "producer_schema_changed": false,
+      "version_status": "AVAILABLE",
+      "detected": false,
+      "stage": "—",
+      "elapsed_ms": 527.3
+    }
+  },
+  "S08_unit_change": {
+    "odcs_contract": {
+      "scenario": "S08_unit_change",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 30.2,
+      "valid": false,
+      "rows": 200,
+      "errors": [
+        "amount: 193 значень більше максимуму 100000"
+      ],
+      "warnings": []
+    },
+    "no_contract": {
+      "mechanism": "no_contract",
+      "detected": false,
+      "stage": "—",
+      "rows_written": 200,
+      "inferred_schema": [
+        "order_id:string",
+        "customer_id:string",
+        "order_date:timestamp",
+        "amount:int",
+        "currency:string",
+        "status:string"
+      ],
+      "note": "завдання завершилось успішно, дані записані в озеро",
+      "elapsed_ms": 15219.7
+    },
+    "glue_dq": {
+      "mechanism": "glue_dq",
+      "detected": true,
+      "stage": "обробка (після читання даних)",
+      "rules_total": 16,
+      "rules_failed": 1,
+      "failed_rules": [
+        {
+          "rule": "ColumnValues \"amount\" <= 100000",
+          "outcome": "Failed",
+          "reason": "Value: 1997810.0 does not meet the constraint requirement!"
+        }
+      ],
+      "elapsed_ms": 6807.7
+    },
+    "schema_registry": {
+      "scenario": "S08_unit_change",
+      "mechanism": "schema_registry",
+      "compatibility": "BACKWARD",
+      "producer_schema_changed": false,
+      "version_status": "AVAILABLE",
+      "detected": false,
+      "stage": "—",
+      "elapsed_ms": 482.9
+    }
+  },
+  "S09_date_format": {
+    "odcs_contract": {
+      "scenario": "S09_date_format",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 42.8,
+      "valid": false,
+      "rows": 200,
+      "errors": [
+        "order_date: 200 значень не відповідають формату дати yyyy-MM-dd, напр. ['01.10.2026', '24.10.2026', '14.10.2026']"
+      ],
+      "warnings": []
+    },
+    "no_contract": {
+      "mechanism": "no_contract",
+      "detected": false,
+      "stage": "—",
+      "rows_written": 200,
+      "inferred_schema": [
+        "order_id:string",
+        "customer_id:string",
+        "order_date:string",
+        "amount:double",
+        "currency:string",
+        "status:string"
+      ],
+      "note": "завдання завершилось успішно, дані записані в озеро",
+      "elapsed_ms": 16190.8
+    },
+    "glue_dq": {
+      "mechanism": "glue_dq",
+      "detected": true,
+      "stage": "обробка (після читання даних)",
+      "rules_total": 16,
+      "rules_failed": 1,
+      "failed_rules": [
+        {
+          "rule": "ColumnDataType \"order_date\" = \"DATE\"",
+          "outcome": "Failed",
+          "reason": "0.00 % of rows passed the threshold"
+        }
+      ],
+      "elapsed_ms": 6837.8
+    },
+    "schema_registry": {
+      "scenario": "S09_date_format",
+      "mechanism": "schema_registry",
+      "compatibility": "BACKWARD",
+      "producer_schema_changed": false,
+      "version_status": "AVAILABLE",
+      "detected": false,
+      "stage": "—",
+      "elapsed_ms": 471.3
+    }
+  },
+  "S10_new_enum_value": {
+    "odcs_contract": {
+      "scenario": "S10_new_enum_value",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 42.3,
+      "valid": false,
+      "rows": 200,
+      "errors": [
+        "status: недопустимі значення ['refunded'], дозволено ['cancelled', 'new', 'paid', 'shipped']"
+      ],
+      "warnings": []
+    },
+    "no_contract": {
+      "mechanism": "no_contract",
+      "detected": false,
+      "stage": "—",
+      "rows_written": 200,
+      "inferred_schema": [
+        "order_id:string",
+        "customer_id:string",
+        "order_date:timestamp",
+        "amount:double",
+        "currency:string",
+        "status:string"
+      ],
+      "note": "завдання завершилось успішно, дані записані в озеро",
+      "elapsed_ms": 16298.6
+    },
+    "glue_dq": {
+      "mechanism": "glue_dq",
+      "detected": true,
+      "stage": "обробка (після читання даних)",
+      "rules_total": 16,
+      "rules_failed": 1,
+      "failed_rules": [
+        {
+          "rule": "ColumnValues \"status\" in [\"new\",\"paid\",\"shipped\",\"cancelled\"]",
+          "outcome": "Failed",
+          "reason": "Value: 0.9 does not meet the constraint requirement!"
+        }
+      ],
+      "elapsed_ms": 6647.0
+    },
+    "schema_registry": {
+      "scenario": "S10_new_enum_value",
+      "mechanism": "schema_registry",
+      "compatibility": "BACKWARD",
+      "producer_schema_changed": true,
+      "version_status": "AVAILABLE",
+      "detected": false,
+      "stage": "—",
+      "elapsed_ms": 580.2
+    }
+  },
+  "S11_case_change": {
+    "odcs_contract": {
+      "scenario": "S11_case_change",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 22.7,
+      "valid": false,
+      "rows": 200,
+      "errors": [
+        "schema: відсутнє обов'язкове поле 'amount'"
+      ],
+      "warnings": [
+        "schema: поле 'Amount' не описане в контракті (допускається)"
+      ]
+    },
+    "no_contract": {
+      "mechanism": "no_contract",
+      "detected": false,
+      "stage": "—",
+      "rows_written": 200,
+      "inferred_schema": [
+        "order_id:string",
+        "customer_id:string",
+        "order_date:timestamp",
+        "Amount:double",
+        "currency:string",
+        "status:string"
+      ],
+      "note": "завдання завершилось успішно, дані записані в озеро",
+      "elapsed_ms": 16237.4
+    },
+    "glue_dq": {
+      "mechanism": "glue_dq",
+      "detected": false,
+      "stage": "—",
+      "rules_total": 16,
+      "rules_failed": 0,
+      "failed_rules": [],
+      "elapsed_ms": 6956.0
+    },
+    "schema_registry": {
+      "scenario": "S11_case_change",
+      "mechanism": "schema_registry",
+      "compatibility": "BACKWARD",
+      "producer_schema_changed": true,
+      "version_status": "FAILURE",
+      "detected": true,
+      "stage": "публікація схеми виробником",
+      "elapsed_ms": 625.4
+    }
+  },
+  "S12_empty_file": {
+    "odcs_contract": {
+      "scenario": "S12_empty_file",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 25.1,
+      "valid": false,
+      "rows": 0,
+      "errors": [
+        "rowCount: 0 рядків, очікується > 0"
+      ],
+      "warnings": []
+    },
+    "no_contract": {
+      "mechanism": "no_contract",
+      "detected": false,
+      "stage": "—",
+      "rows_written": 0,
+      "inferred_schema": [
+        "order_id:string",
+        "customer_id:string",
+        "order_date:string",
+        "amount:string",
+        "currency:string",
+        "status:string"
+      ],
+      "note": "завдання завершилось успішно, дані записані в озеро",
+      "elapsed_ms": 15256.2
+    },
+    "glue_dq": {
+      "mechanism": "glue_dq",
+      "detected": true,
+      "stage": "обробка (після читання даних)",
+      "rules_total": 16,
+      "rules_failed": 9,
+      "failed_rules": [
+        {
+          "rule": "RowCount > 0",
+          "outcome": "Failed",
+          "reason": "Value: 0 does not meet the constraint requirement!"
+        },
+        {
+          "rule": "IsComplete \"order_id\"",
+          "outcome": "Failed",
+          "reason": "Empty state for analyzer Completeness(order_id,None,None), all input values were NULL."
+        },
+        {
+          "rule": "IsUnique \"order_id\"",
+          "outcome": "Failed",
+          "reason": "Empty state for analyzer Uniqueness(List(order_id),None,None), all input values were NULL."
+        },
+        {
+          "rule": "IsComplete \"customer_id\"",
+          "outcome": "Failed",
+          "reason": "Empty state for analyzer Completeness(customer_id,None,None), all input values were NULL."
+        },
+        {
+          "rule": "IsComplete \"amount\"",
+          "outcome": "Failed",
+          "reason": "Empty state for analyzer Completeness(amount,None,None), all input values were NULL."
+        },
+        {
+          "rule": "ColumnValues \"amount\" >= 0",
+          "outcome": "Failed",
+          "reason": "Expected type of column amount to be one of (LongType,IntegerType,org.apache.spark.sql.types.DecimalType$@4c3ad02d,DoubleType,ByteType,FloatType,ShortType), but found StringType instead!\nValue: NULL does not meet the constraint requirement!"
+        },
+        {
+          "rule": "ColumnValues \"amount\" <= 100000",
+          "outcome": "Failed",
+          "reason": "Expected type of column amount to be one of (LongType,IntegerType,org.apache.spark.sql.types.DecimalType$@4c3ad02d,DoubleType,ByteType,FloatType,ShortType), but found StringType instead!\nValue: NULL does not meet the constraint requirement!"
+        },
+        {
+          "rule": "ColumnValues \"currency\" in [\"UAH\",\"USD\",\"EUR\"]",
+          "outcome": "Failed",
+          "reason": "Empty state for analyzer Compliance(809eb57c-5b75-4269-9803-c5deb804dc79,(currency is not NULL and currency in ('UAH', 'USD', 'EUR')) or ,None,List(currency),None), all input values were NULL."
+        },
+        {
+          "rule": "ColumnValues \"status\" in [\"new\",\"paid\",\"shipped\",\"cancelled\"]",
+          "outcome": "Failed",
+          "reason": "Empty state for analyzer Compliance(3295cb07-4f71-4bed-b739-070b2f6fb24c,(status is not NULL and status in ('new', 'paid', 'shipped', 'cancelled')) or ,None,List(status),None), all input values were NULL."
+        }
+      ],
+      "elapsed_ms": 5901.6
+    },
+    "schema_registry": {
+      "scenario": "S12_empty_file",
+      "mechanism": "schema_registry",
+      "compatibility": "BACKWARD",
+      "producer_schema_changed": false,
+      "version_status": "AVAILABLE",
+      "detected": false,
+      "stage": "—",
+      "elapsed_ms": 467.4
+    }
+  }
+}

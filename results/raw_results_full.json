@@ -1,0 +1,366 @@
+{
+  "S00_baseline": {
+    "odcs_contract": {
+      "scenario": "S00_baseline",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": false,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 43.1,
+      "valid": true,
+      "rows": 200,
+      "errors": [],
+      "warnings": []
+    },
+    "schema_registry": {
+      "scenario": "S00_baseline",
+      "mechanism": "schema_registry",
+      "compatibility": "FULL",
+      "producer_schema_changed": false,
+      "version_status": "AVAILABLE",
+      "detected": false,
+      "stage": "—",
+      "elapsed_ms": 1551.1
+    }
+  },
+  "S01_add_column": {
+    "odcs_contract": {
+      "scenario": "S01_add_column",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": false,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 204.7,
+      "valid": true,
+      "rows": 200,
+      "errors": [],
+      "warnings": [
+        "schema: поле 'discount' не описане в контракті (допускається)"
+      ]
+    },
+    "schema_registry": {
+      "scenario": "S01_add_column",
+      "mechanism": "schema_registry",
+      "compatibility": "FULL",
+      "producer_schema_changed": true,
+      "version_status": "FAILURE",
+      "detected": true,
+      "stage": "публікація схеми виробником",
+      "elapsed_ms": 613.0
+    }
+  },
+  "S02_rename_column": {
+    "odcs_contract": {
+      "scenario": "S02_rename_column",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 59.6,
+      "valid": false,
+      "rows": 200,
+      "errors": [
+        "schema: відсутнє обов'язкове поле 'amount'"
+      ],
+      "warnings": [
+        "schema: поле 'total_amount' не описане в контракті (допускається)"
+      ]
+    },
+    "schema_registry": {
+      "scenario": "S02_rename_column",
+      "mechanism": "schema_registry",
+      "compatibility": "FULL",
+      "producer_schema_changed": true,
+      "version_status": "FAILURE",
+      "detected": true,
+      "stage": "публікація схеми виробником",
+      "elapsed_ms": 544.8
+    }
+  },
+  "S03_drop_column": {
+    "odcs_contract": {
+      "scenario": "S03_drop_column",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 59.9,
+      "valid": false,
+      "rows": 200,
+      "errors": [
+        "schema: відсутнє обов'язкове поле 'customer_id'"
+      ],
+      "warnings": []
+    },
+    "schema_registry": {
+      "scenario": "S03_drop_column",
+      "mechanism": "schema_registry",
+      "compatibility": "FULL",
+      "producer_schema_changed": true,
+      "version_status": "FAILURE",
+      "detected": true,
+      "stage": "публікація схеми виробником",
+      "elapsed_ms": 690.0
+    }
+  },
+  "S04_type_change": {
+    "odcs_contract": {
+      "scenario": "S04_type_change",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 42.4,
+      "valid": false,
+      "rows": 200,
+      "errors": [
+        "amount: 200 значень не є числом, напр. ['14 843,93 грн', '2 094,78 грн', '684,06 грн']"
+      ],
+      "warnings": []
+    },
+    "schema_registry": {
+      "scenario": "S04_type_change",
+      "mechanism": "schema_registry",
+      "compatibility": "FULL",
+      "producer_schema_changed": true,
+      "version_status": "FAILURE",
+      "detected": true,
+      "stage": "публікація схеми виробником",
+      "elapsed_ms": 554.3
+    }
+  },
+  "S05_reorder_columns": {
+    "odcs_contract": {
+      "scenario": "S05_reorder_columns",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": false,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 42.4,
+      "valid": true,
+      "rows": 200,
+      "errors": [],
+      "warnings": []
+    },
+    "schema_registry": {
+      "scenario": "S05_reorder_columns",
+      "mechanism": "schema_registry",
+      "compatibility": "FULL",
+      "producer_schema_changed": false,
+      "version_status": "AVAILABLE",
+      "detected": false,
+      "stage": "—",
+      "elapsed_ms": 513.1
+    }
+  },
+  "S06_nulls_required": {
+    "odcs_contract": {
+      "scenario": "S06_nulls_required",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 75.7,
+      "valid": false,
+      "rows": 200,
+      "errors": [
+        "customer_id: 20 порожніх значень у обов'язковому полі"
+      ],
+      "warnings": []
+    },
+    "schema_registry": {
+      "scenario": "S06_nulls_required",
+      "mechanism": "schema_registry",
+      "compatibility": "FULL",
+      "producer_schema_changed": false,
+      "version_status": "AVAILABLE",
+      "detected": false,
+      "stage": "—",
+      "elapsed_ms": 607.3
+    }
+  },
+  "S07_duplicate_keys": {
+    "odcs_contract": {
+      "scenario": "S07_duplicate_keys",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 41.9,
+      "valid": false,
+      "rows": 200,
+      "errors": [
+        "order_id: 20 дублікатів у полі з обмеженням unique"
+      ],
+      "warnings": []
+    },
+    "schema_registry": {
+      "scenario": "S07_duplicate_keys",
+      "mechanism": "schema_registry",
+      "compatibility": "FULL",
+      "producer_schema_changed": false,
+      "version_status": "AVAILABLE",
+      "detected": false,
+      "stage": "—",
+      "elapsed_ms": 509.9
+    }
+  },
+  "S08_unit_change": {
+    "odcs_contract": {
+      "scenario": "S08_unit_change",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 61.5,
+      "valid": false,
+      "rows": 200,
+      "errors": [
+        "amount: 193 значень більше максимуму 100000"
+      ],
+      "warnings": []
+    },
+    "schema_registry": {
+      "scenario": "S08_unit_change",
+      "mechanism": "schema_registry",
+      "compatibility": "FULL",
+      "producer_schema_changed": false,
+      "version_status": "AVAILABLE",
+      "detected": false,
+      "stage": "—",
+      "elapsed_ms": 751.0
+    }
+  },
+  "S09_date_format": {
+    "odcs_contract": {
+      "scenario": "S09_date_format",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 60.3,
+      "valid": false,
+      "rows": 200,
+      "errors": [
+        "order_date: 200 значень не відповідають формату дати yyyy-MM-dd, напр. ['01.10.2026', '24.10.2026', '14.10.2026']"
+      ],
+      "warnings": []
+    },
+    "schema_registry": {
+      "scenario": "S09_date_format",
+      "mechanism": "schema_registry",
+      "compatibility": "FULL",
+      "producer_schema_changed": false,
+      "version_status": "AVAILABLE",
+      "detected": false,
+      "stage": "—",
+      "elapsed_ms": 829.5
+    }
+  },
+  "S10_new_enum_value": {
+    "odcs_contract": {
+      "scenario": "S10_new_enum_value",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 52.4,
+      "valid": false,
+      "rows": 200,
+      "errors": [
+        "status: недопустимі значення ['refunded'], дозволено ['cancelled', 'new', 'paid', 'shipped']"
+      ],
+      "warnings": []
+    },
+    "schema_registry": {
+      "scenario": "S10_new_enum_value",
+      "mechanism": "schema_registry",
+      "compatibility": "FULL",
+      "producer_schema_changed": true,
+      "version_status": "FAILURE",
+      "detected": true,
+      "stage": "публікація схеми виробником",
+      "elapsed_ms": 637.7
+    }
+  },
+  "S11_case_change": {
+    "odcs_contract": {
+      "scenario": "S11_case_change",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 78.7,
+      "valid": false,
+      "rows": 200,
+      "errors": [
+        "schema: відсутнє обов'язкове поле 'amount'"
+      ],
+      "warnings": [
+        "schema: поле 'Amount' не описане в контракті (допускається)"
+      ]
+    },
+    "schema_registry": {
+      "scenario": "S11_case_change",
+      "mechanism": "schema_registry",
+      "compatibility": "FULL",
+      "producer_schema_changed": true,
+      "version_status": "FAILURE",
+      "detected": true,
+      "stage": "публікація схеми виробником",
+      "elapsed_ms": 726.6
+    }
+  },
+  "S12_empty_file": {
+    "odcs_contract": {
+      "scenario": "S12_empty_file",
+      "mechanism": "odcs_contract",
+      "contract_id": "urn:datacontract:sales:orders",
+      "contract_version": "1.0.0",
+      "owner": "sales-backend-team",
+      "detected": true,
+      "stage": "landing (до завантаження в озеро даних)",
+      "elapsed_ms": 19.6,
+      "valid": false,
+      "rows": 0,
+      "errors": [
+        "rowCount: 0 рядків, очікується > 0"
+      ],
+      "warnings": []
+    },
+    "schema_registry": {
+      "scenario": "S12_empty_file",
+      "mechanism": "schema_registry",
+      "compatibility": "FULL",
+      "producer_schema_changed": false,
+      "version_status": "AVAILABLE",
+      "detected": false,
+      "stage": "—",
+      "elapsed_ms": 523.7
+    }
+  }
+}

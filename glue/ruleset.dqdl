@@ -1,0 +1,18 @@
+Rules = [
+    RowCount > 0,
+    ColumnExists "order_id",
+    ColumnExists "customer_id",
+    ColumnExists "order_date",
+    ColumnExists "amount",
+    ColumnExists "currency",
+    ColumnExists "status",
+    IsComplete "order_id",
+    IsUnique "order_id",
+    IsComplete "customer_id",
+    ColumnDataType "order_date" = "DATE",
+    IsComplete "amount",
+    ColumnValues "amount" >= 0,
+    ColumnValues "amount" <= 100000,
+    ColumnValues "currency" in ["UAH", "USD", "EUR"],
+    ColumnValues "status" in ["new", "paid", "shipped", "cancelled"]
+]
